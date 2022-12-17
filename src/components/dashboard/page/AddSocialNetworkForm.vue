@@ -63,14 +63,14 @@ const changeSocialNetworkType = (network: SocialNetworks) => {
 const addSocialNetwork = () => {
   store.addSocialNetwork(newSocialNetwork)
       .then(() => {
-        document.getElementById('close-modal').click()
+        document.getElementById('close-modal')?.click()
         emit('addSocialNetwork')
       })
       .catch(res => errors.value = res.response.data.data)
 }
 
 const modal = document.getElementById('add-modal')
-modal.addEventListener('hidden.bs.modal', function (event) {
+modal?.addEventListener('hidden.bs.modal', function (event: any) {
   newSocialNetwork.value = {
     network: null,
     url: '',

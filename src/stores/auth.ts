@@ -3,12 +3,12 @@ import http from "@/http/api";
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
-        token: null,
+        token: '',
         authErrors: []
     }),
     getters: {
         getToken: (state) => state.token,
-        getErrors: (state) => state.authErrors
+        getErrors: (state): any => state.authErrors
     },
     actions: {
         login(email: string, password: string) {
@@ -16,7 +16,9 @@ export const useAuthStore = defineStore('auth', {
             return http.post('/api/login', {email, password})
                 .then(res => {
                     this.token = res.data.data
+                    // @ts-ignore
                     localStorage.setItem('accessToken', res.data.data.token)
+                    // @ts-ignore
                     this.router.push('/dashboard')
                 })
         },
@@ -34,24 +36,28 @@ export const useAuthStore = defineStore('auth', {
             this.authErrors = [];
             http.post('/api/register', {name, email, password, c_password})
                 .then(() => {
+                    // @ts-ignore
                     this.router.push('/login')
                 })
                 .catch(err => {
-                    console.log(err)
                     this.authErrors = err.response.data.data
+                    // @ts-ignore
                     alert('Error on Register')
                     this.destroySession()
                 })
         },
         fetchToken() {
+            // @ts-ignore
             this.token = localStorage.getItem('accessToken')
         },
         destroySession() {
-            this.token = null
+            this.token = ''
+            // @ts-ignore
             localStorage.removeItem('accessToken')
         },
         logout() {
             this.destroySession()
+            // @ts-ignore
             this.router.push('/login')
         }
     }

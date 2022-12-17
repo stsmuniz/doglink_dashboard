@@ -125,7 +125,7 @@
                         <i class="fa-solid fa-grip p-2 mt-1"></i>
 
                         <div class="card-header-title">
-                          {{ Sections[section.type] }}
+                          {{ Sections[section.type as keyof typeof Sections] }}
                         </div>
                         <span class="btn btn-light delete-item" @click="deleteSection(section.id)">
                           <i class="fa fa-trash-alt"></i>
@@ -171,7 +171,8 @@ import AddSectionForm from "@/components/dashboard/page/AddSectionForm.vue";
 import SocialNetworkCard from "@/components/dashboard/page/SocialNetworkCard.vue";
 import AddSocialNetworkForm from "@/components/dashboard/page/AddSocialNetworkForm.vue";
 import ModalComponent from "@/components/ModalComponent.vue";
-import sessionsHasNullItems from "@/helpers/sessionsHasNullItems";
+import sectionsHasNullItems from "@/helpers/sectionsHasNullItems";
+import type {iSection} from "@/interfaces/iSection";
 
 const store = usePageStore();
 const page = ref();
@@ -190,12 +191,12 @@ onMounted(() => {
 });
 const modalContent = ref();
 
-const setModalContent = (formType) => modalContent.value = formType
+const setModalContent = (formType: string) => modalContent.value = formType
 
 watch(() => page, debounce(async (newValue: any) => {
-          console.log(newValue)
           await update(newValue.value)
-          if (!sessionsHasNullItems(newValue.value.sections)) {
+          if (!sectionsHasNullItems(newValue.value.sections)) {
+            // @ts-ignore
             setTimeout(() => document.getElementById('page-preview').src += '', 500)
           }
         },
@@ -205,15 +206,14 @@ watch(() => page, debounce(async (newValue: any) => {
 )
 
 const update = (value: any) => {
-  console.log(value)
-  if (!sessionsHasNullItems(value.sections)){
+  if (!sectionsHasNullItems(value.sections)){
     store.updatePage(value)
   }
 }
 
 const deleteSection = (id: number) => {
   store.deleteSection(id)
-      .then(page.value.sections = page.value.sections.filter(item => item.id !== id))
+      .then(page.value.sections = page.value.sections.filter((item: iSection) => item.id !== id))
 }
 
 const togglePreview = () => {

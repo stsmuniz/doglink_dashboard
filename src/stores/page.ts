@@ -5,6 +5,7 @@ import App from "@/App.vue";
 import {useAuthStore} from "@/stores/auth";
 import type {iPage} from "@/interfaces/iPage";
 import removeJsonNullProperties from "@/helpers/removeJsonNullProperties";
+import type {iSection} from "@/interfaces/iSection";
 
 const pinia = createPinia();
 const app = createApp(App)
@@ -13,6 +14,7 @@ app.use(pinia)
 const authStore = useAuthStore();
 
 const setToken = () => {
+    // @ts-ignore
     const token = authStore.token ? authStore.token : localStorage.getItem('accessToken')
     setBearerToken(token)
 }
@@ -21,7 +23,9 @@ export const usePageStore = defineStore('page', {
         page: {}
     }),
     getters: {
-        getPage: (state) => state.page.data ? stage.page.data : state.page,
+        // @ts-ignore
+        getPage: (state) => state.page.data ? state.page.data : state.page,
+        // @ts-ignore
         getUrl: (state) => `https://doglink.net/${state.page.custom_url}`,
     },
     actions: {
@@ -40,36 +44,44 @@ export const usePageStore = defineStore('page', {
         },
         deleteSocialNetwork(id: number) {
             setToken()
+            // @ts-ignore
             return http.delete(`/api/pages/${this.page.id}/social-networks/${id}`)
                 .then(() => {
+                    // @ts-ignore
                     const filteredSocialNetworks = this.page.social_networks.filter(item => item.id !== id)
+                    // @ts-ignore
                     this.page.social_networks = filteredSocialNetworks
                 })
         },
-        addSocialNetwork(data) {
+        addSocialNetwork(data: any) {
             setToken()
+            // @ts-ignore
             return http.post(`/api/pages/${this.page.id}/social-networks/`, {
                 type: data.value.network,
                 order: data.value.order,
                 url: data.value.url
             }).then((res) => {
                 const network = res.data.data;
+                // @ts-ignore
                 this.page.social_networks.push(network)
-                console.log('success')
             })
         },
         deleteSection(id: number) {
             setToken()
+            // @ts-ignore
             return http.delete(`/api/pages/${this.page.id}/sections/${id}`)
                 .then(() => {
+                    // @ts-ignore
                     const sections = this.page.sections.filter(item => item.id !== id)
+                    // @ts-ignore
                     this.page.sections = sections
                 })
         },
-        addSection(data) {
+        addSection(data: iSection) {
             setToken()
             const sectionData = removeJsonNullProperties(data.data)
 
+            // @ts-ignore
             return http.post(`/api/pages/${this.page.id}/sections/`, {
                 type: data.type,
                 order: data.order,

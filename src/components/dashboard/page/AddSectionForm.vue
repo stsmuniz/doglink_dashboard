@@ -9,18 +9,19 @@
               data-bs-toggle="dropdown"
               aria-expanded="false">
             <span v-if="!newSection.type">Choose Section</span>
-            <span v-else>{{Sections[newSection.type]}}</span>
+            <span v-else>{{newSection.type}}</span>
           </button>
           <ul class="dropdown-menu">
             <li v-for="(section, index) in Sections" class="dropdown-item"
-                @click="changeSectionType(index)">
+                @click="changeSectionType(section)">
               {{section}}
             </li>
           </ul>
         </div>
       </div>
+
       <component
-          :is="mapTypeComponents[componentTypeSection]"
+          :is="mapTypeComponents[componentTypeSection as keyof typeof mapTypeComponents]"
           :data="newSection.data"
           @enableSubmit="setSubmit(true)"
           @disableSubmit="setSubmit(false)"
@@ -50,8 +51,8 @@ import Whatsapp from "@/components/dashboard/page/sections/Whatsapp.vue";
 
 const store = usePageStore();
 
-const initialSection = {
-  type: null,
+const initialSection: iSection = {
+  type: Sections.ExternalLink,
   data: {url: '', text: ''},
   order: 999
 }
@@ -62,7 +63,7 @@ const setSubmit = (status: boolean) => disableForm.value = !status;
 
 const newSection: Ref<iSection> = ref(initialSection);
 
-const componentTypeSection = computed(() => newSection.value.type?.replace(' ', ''));
+const componentTypeSection = computed(() => newSection.value.type.replace(' ', ''));
 
 const mapTypeComponents = {
   YoutubePlayer: YoutubePlayer,
@@ -83,16 +84,15 @@ const emit = defineEmits(['addSection'])
 const addSection = () => {
   store.addSection(newSection.value)
       .then(() => {
-        document.getElementById('close-modal').click()
+        document.getElementById('close-modal')?.click()
         emit('addSection')
       })
-      .catch(err => console.log(err))
 }
 
 const modal = document.getElementById('add-modal')
-modal?.addEventListener('hidden.bs.modal', function (event) {
+modal?.addEventListener('hidden.bs.modal', function (event: any) {
   newSection.value = {
-    type: null,
+    type: Sections.ExternalLink,
     data: {url: '', text: ''},
     order: 999
   }

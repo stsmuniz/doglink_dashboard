@@ -11,6 +11,7 @@ app.use(pinia)
 const authStore = useAuthStore();
 
 const setToken = () => {
+    // @ts-ignore
     const token = authStore.token ? authStore.token : localStorage.getItem('accessToken')
     setBearerToken(token)
 }
@@ -21,8 +22,10 @@ export const useUserStore = defineStore('user', {
     getters: {
         getUser: (state) => state.user,
         getUserProfilePicture: (state) => state.user
+            // @ts-ignore
             ? state.user.profile_pic
             : "@/assets/images/Portrait_Placeholder.png",
+        // @ts-ignore
         getUserCustomUrl: (state) => state.user?.custom_url
     },
     actions: {
@@ -44,13 +47,14 @@ export const useUserStore = defineStore('user', {
                 }
             })
                 .then(res => {
-                    console.log(res.data.data)
+                    // @ts-ignore
                     this.user.profile_pic = res.data.data.image
                 })
         },
         deleteProfilePicture() {
             setToken()
             return http.delete('/api/profile-picture')
+                // @ts-ignore
                 .then(this.user.profile_pic = null)
         },
         deleteProfile() {

@@ -72,11 +72,11 @@ const form = ref({
 
 const allowSubmit = computed(() => form.value.password && form.value.password_confirmation && form.value.email)
 
-const notificationMessage = ref(null);
+const notificationMessage = ref('');
 const notificationType = ref('success')
 const showNotification = ref(false)
 
-const callNotification = (type, message) => {
+const callNotification = (type: string, message: string) => {
   notificationType.value = type
   notificationMessage.value = message
   showNotification.value = true
