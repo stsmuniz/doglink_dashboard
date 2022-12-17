@@ -22,7 +22,7 @@ export const usePageStore = defineStore('page', {
     }),
     getters: {
         getPage: (state) => state.page.data ? stage.page.data : state.page,
-        getUrl: (state) => `https://localhost:8080/${state.page.custom_url}`,
+        getUrl: (state) => `https://doglink.net/${state.page.custom_url}`,
     },
     actions: {
         getUserPage() {
