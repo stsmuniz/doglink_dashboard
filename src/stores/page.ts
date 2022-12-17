@@ -83,7 +83,7 @@ export const usePageStore = defineStore('page', {
 
             // @ts-ignore
             return http.post(`/api/pages/${this.page.id}/sections/`, {
-                type: data.type,
+                type: data.type.replace(' ', ''),
                 order: data.order,
                 data: JSON.stringify(sectionData)
             }, {
