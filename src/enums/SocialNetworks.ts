@@ -9,7 +9,10 @@ enum SocialNetworks
     Github = 'Github',
     YouTube = 'YouTube',
     Spotify = 'Spotify',
-    Steam = 'Steam'
+    Steam = 'Steam',
+    Pinterest = 'Pinterest',
+    Dribbble = 'Dribbble',
+    Soundcloud = 'Soundcloud',
 }
 
 export default SocialNetworks
