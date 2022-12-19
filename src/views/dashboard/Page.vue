@@ -78,7 +78,7 @@
                       class="form-control"
                       placeholder="Insert your custom url">
                   <label for="custom_url">Custom URL</label>
-                  <span>Your page url: <a :href="store.getUrl" target="_blank">{{store.getUrl}}</a> </span>
+                  <span class="page-url-preview">Your page url: <a :href="store.getUrl" target="_blank">{{store.getUrl}}</a> </span>
                 </div>
               </div>
             </div>

@@ -1,1 +1,9 @@
 @import './base.css';
+
+#app {
+    background-color: #ffffff;
+}
+
+.card-header-title, .card-body label, .card-body .fa-grip, .page-url-preview {
+    color: #333333;
+}
