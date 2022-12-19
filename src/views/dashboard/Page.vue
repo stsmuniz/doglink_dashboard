@@ -223,6 +223,7 @@ const togglePreview = () => {
 </script>
 
 <style scoped lang="scss">
+@import "@/assets/main.css";
 .preview-container {
   position: fixed;
   display: block;

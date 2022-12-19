@@ -1,6 +1,6 @@
 <template>
   <NavMenu></NavMenu>
-  <h1>Dashboard</h1>
+  <div class="container-fluid"><h1>Dashboard</h1></div>
 </template>
 
 <script setup lang="ts">
@@ -20,5 +20,6 @@ onMounted(async () => {
 </script>
 
 <style scoped lang="scss">
+@import "@/assets/main.css";
 
 </style>

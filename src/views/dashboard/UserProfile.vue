@@ -208,7 +208,7 @@ const updateProfile = () => {
 </script>
 
 <style scoped lang="scss">
-
+@import "@/assets/main.css";
 .avatar-container {
   max-width: 10rem;
   padding-bottom: 1rem;
